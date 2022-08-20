@@ -2,40 +2,40 @@ import UserList from './UserList';
 
 const USERS = [
 	{
-		id: 1,
-		name: 'Alfred',
+		username: '@Fred',
+		name: 'Alfred Elias',
 		active: true,
 		role: 'teacher'
 	},
 	{
-		id: 2,
-		name: 'Pepe',
+		username: '@Peponche',
+		name: 'José Fernandez',
 		active: true,
 		role: 'teacher'
 	},
 	{
-		id: 3,
-		name: 'Alex',
+		username: '@Alejandro',
+		name: 'Alexander Hacha',
 		active: false,
 		role: 'student'
 	},
 	{
-		id: 4,
-		name: 'Roberto',
+		username: '@Beto',
+		name: 'Roberto Fernandez',
 		active: false,
-		role: 'suente'
+		role: 'other'
 	},
 	{
-		id: 5,
-		name: 'Jaider',
+		username: '@Tumama',
+		name: 'Julian Perez',
 		active: false,
-		role: 'studente'
+		role: 'other'
 	},
 	{
-		id: 6,
-		name: 'Pancho',
+		username: '@Pancho',
+		name: 'Fracisco Lubo',
 		active: false,
-		role: 'studente'
+		role: 'other'
 	}
 ];
 

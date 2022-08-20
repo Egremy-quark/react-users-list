@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import InputSearch from './forms/InputSearch';
 import style from './UserList.module.css';
 
 const UsersListFilter = ({
@@ -7,15 +8,15 @@ const UsersListFilter = ({
 	setOnlyActive,
 	onlyActive,
 	setSortBy,
-	sortBy,
-	onlyInactive,
-	setOnlyInactive
+	sortBy
+	// onlyInactive,
+	// setOnlyInactive
 }) => {
 	return (
 		<div className={style.searchBar}>
 			<form className={style.form}>
-				<input
-					type='text'
+				<InputSearch
+					placeholder='Buscar...'
 					value={search}
 					onChange={e => setSearch(e.target.value)}
 				/>
@@ -28,14 +29,14 @@ const UsersListFilter = ({
 						></input>
 						<span>activos</span>
 					</div>
-					<div>
+					{/* <div>
 						<input
 							type='checkbox'
 							checked={onlyInactive}
 							onChange={e => setOnlyInactive(e.target.checked)}
 						></input>
 						<span>inactivos</span>
-					</div>
+					</div> */}
 				</div>
 				<select
 					className={style.select}
@@ -44,6 +45,8 @@ const UsersListFilter = ({
 				>
 					<option value={0}>Por defecto</option>
 					<option value={1}>Por nombre</option>
+					<option value={2}>Por rol</option>
+					{!onlyActive && <option value={3}>Por activación</option>}
 				</select>
 			</form>
 		</div>

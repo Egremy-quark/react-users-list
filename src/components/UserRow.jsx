@@ -1,16 +1,14 @@
 import PropTypes from 'prop-types';
-import { useContext } from 'react';
-import { UsersContext } from '../lib/context/UsersContext';
+import UserDisplay from './UserDisplay';
 import UserRole from './UserRole';
 import style from './UserRow.module.css';
 import UserStatus from './UserStatus';
 
-const UserRow = ({ id, name, active, role }) => {
-	const { toggleUsersActive } = useContext(UsersContext);
+const UserRow = ({ username, name, active, role }) => {
 	return (
 		<div className={style.wrapper}>
 			<div className={style.name}>
-				<span>{name}</span>
+				<UserDisplay name={name} username={username} />
 			</div>
 			<div className={style.status}>
 				<UserStatus active={active} name={name} />
@@ -18,11 +16,7 @@ const UserRow = ({ id, name, active, role }) => {
 			<div className={style.role}>
 				<UserRole role={role} />
 			</div>
-			<div className={style.action}>
-				<button onClick={() => toggleUsersActive(id)}>
-					{active ? 'Desactivar' : 'Activar'}
-				</button>
-			</div>
+			<div className={style.action}></div>
 		</div>
 	);
 };
@@ -33,5 +27,5 @@ UserRow.propTypes = {
 	name: PropTypes.any,
 	active: PropTypes.any,
 	role: PropTypes.any,
-	id: PropTypes.any
+	username: PropTypes.any
 };

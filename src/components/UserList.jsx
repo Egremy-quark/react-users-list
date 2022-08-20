@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import { UsersContext } from '../lib/context/UsersContext';
 import style from './UserList.module.css';
 import UsersListFilter from './UsersListFilter';
 import UserListRows from './UsersListRows';
@@ -10,7 +9,7 @@ const UserList = ({ initialUsers }) => {
 	const { search, onlyActive, onlyInactive, sortBy, ...setFiltersFunctions } =
 		useFilters();
 
-	const { users, toggleUsersActive } = useUsers(initialUsers);
+	const { users } = useUsers(initialUsers);
 
 	//! Recibiremos el useState, ya que este será el encargado de gestionar los atributos de los usuarios
 
@@ -29,10 +28,7 @@ const UserList = ({ initialUsers }) => {
 				onlyInactive={onlyInactive}
 				{...setFiltersFunctions}
 			/>
-
-			<UsersContext.Provider value={{ toggleUsersActive }}>
-				<UserListRows users={usersFiltered} />
-			</UsersContext.Provider>
+			<UserListRows users={usersFiltered} />
 		</div>
 	);
 };
@@ -40,19 +36,9 @@ const UserList = ({ initialUsers }) => {
 export default UserList;
 
 const useUsers = initialUsers => {
-	const [users, setUsers] = useState(initialUsers);
+	const [users /* setUsers */] = useState(initialUsers);
 
-	const toggleUsersActive = userId => {
-		const newUsers = [...users];
-
-		const userIndex = newUsers.findIndex(user => user.id === userId);
-		if (userIndex === -1) return;
-
-		newUsers[userIndex].active = !newUsers[userIndex].active;
-		setUsers(newUsers);
-	};
-
-	return { users, toggleUsersActive };
+	return { users };
 };
 
 const useFilters = () => {
@@ -79,10 +65,18 @@ const useFilters = () => {
 	};
 
 	const setOnlyActive = onlyActive => {
-		setFilters({
-			...filters,
-			onlyActive
-		});
+		if (onlyActive && filters.sortBy === 3) {
+			setFilters({
+				...filters,
+				sortBy: 0,
+				onlyActive
+			});
+		} else {
+			setFilters({
+				...filters,
+				onlyActive
+			});
+		}
 	};
 
 	const setOnlyInactive = onlyInactive => {
@@ -106,7 +100,7 @@ const filterUsersByName = (users, search) => {
 	const lowerCasedSearch = search.toLowerCase();
 
 	return users.filter(user =>
-		user.name.toLowerCase().startsWith(lowerCasedSearch)
+		user.name.toLowerCase().includes(lowerCasedSearch)
 	);
 };
 
@@ -129,6 +123,19 @@ const sortUsers = (users, sortBy) => {
 				if (a.name > b.name) return 1;
 				if (a.name < b.name) return -1;
 				return 0;
+			});
+		case 2:
+			return sortedUsers.sort((a, b) => {
+				if (a.role === b.role) return -1;
+				if (a.role === 'teacher') return -1;
+				if (a.role === 'student' && b.role === 'other') return -1;
+				return 1;
+			});
+		case 3:
+			return sortedUsers.sort((a, b) => {
+				if (a.active === b.active) return 0;
+				if (a.active && !b.active) return -1;
+				return 1;
 			});
 		default:
 			return sortedUsers;
