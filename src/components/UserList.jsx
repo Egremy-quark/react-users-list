@@ -55,6 +55,7 @@ const useFilters = () => {
 			...filters,
 			search
 		});
+		
 	};
 
 	const setSortBy = sortBy => {
